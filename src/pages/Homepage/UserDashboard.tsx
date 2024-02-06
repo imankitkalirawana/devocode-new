@@ -1,9 +1,8 @@
 import Calendar from "./Calendar";
 import Dashboard from "./Dashboard";
-import Subjects from "./Subjects";
 import Announcements from "./Announcements";
 
-const HomePage = () => {
+const UserDashboard = () => {
   return (
     <div className="relative mt-24 max-w-7xl mx-auto grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 items-start p-8">
       {/* main dashboard */}
@@ -29,7 +28,7 @@ const HomePage = () => {
           aria-label="Subjects"
         />
         <div role="tabpanel" className="tab-content py-10">
-          <Subjects />
+          Subjects
         </div>
 
         <input
@@ -50,4 +49,4 @@ const HomePage = () => {
     </div>
   );
 };
-export default HomePage;
+export default UserDashboard;

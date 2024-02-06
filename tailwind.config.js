@@ -2,7 +2,7 @@
 module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
 
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/forms")],
   daisyui: {
     themes: [
       "light",

@@ -3,6 +3,7 @@ import { isLoggedIn } from "../utils/isLogged";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import Sad from "./svg/Sad";
+import Marketing from "../pages/Landingpage/Marketing";
 
 const themes = [
   "light",
@@ -41,6 +42,7 @@ const themes = [
 
 const Navbar = () => {
   const [isloggingOut, setIsLoggingOut] = useState(false);
+  const [isMarketing, setIsMarketing] = useState(false);
   const location = useLocation();
   const { loggedIn } = isLoggedIn();
 
@@ -67,9 +69,18 @@ const Navbar = () => {
     }, 1000);
   };
 
+  const toggleMarketing = () => {
+    setIsMarketing(!isMarketing);
+  };
+
   return (
     <>
-      <div className="navbar bg-base-100 fixed z-30 text-content top-0">
+      {isMarketing && <Marketing toggleMarketing={toggleMarketing} />}
+      <div
+        className={`navbar bg-base-100/70 sticky z-30 text-content ${
+          !isMarketing ? "top-0" : "top-12"
+        } backdrop-blur-lg transition-all`}
+      >
         <div className="navbar-start">
           <div className="dropdown">
             <label

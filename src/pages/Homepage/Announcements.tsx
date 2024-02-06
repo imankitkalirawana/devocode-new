@@ -15,25 +15,14 @@ const Announcements = () => {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchAnnouncements = async () => {
-      try {
-        const { data } = await axios.get(`${API_BASE_URL}/api/announcements`);
-        setAnnouncements(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchAnnouncements();
-  }, []);
-
   return (
     <>
       <div className="flex justify-between items-center">
         <h2>Announcements</h2>
-        <Link to={"/resources/announcements"} className="btn btn-link link link-primary">
+        <Link
+          to={"/resources/announcements"}
+          className="btn btn-link link link-primary"
+        >
           View all <FiArrowRight />
         </Link>
       </div>
