@@ -14,6 +14,8 @@ import HomePage from "./pages/Homepage/HomePage";
 import Login from "./pages/Auth/Login";
 import Resources from "./pages/Resources/Resources";
 import { ToastContainer } from "react-toastify";
+import Subjects from "./pages/Resources/Subjects/Subjects";
+import Profile from "./component/Profile";
 
 // Layout component with Navbar and Footer
 const MainLayout = ({ children }: any) => (
@@ -36,7 +38,13 @@ export function App() {
                   <Route path="" element={<HomePage />} />
                   <Route path="resources/*" element={<Outlet />}>
                     <Route path="" element={<Resources />} />
-                    <Route path="subjects" element={<h1>Subjects</h1>} />
+                    <Route path="subjects" element={<Subjects />} />
+                  </Route>
+                  {/* Profile */}
+                  <Route path="profile/*" element={<Outlet />}>
+                    <Route path="" element={<Profile />} />
+                    <Route path="settings" element={<>Settings</>} />
+                    <Route path="billing" element={<>Billing</>} />
                   </Route>
                   {/* <Footer /> */}
                 </Routes>

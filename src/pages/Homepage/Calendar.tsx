@@ -1,6 +1,6 @@
 const Calendar = () => {
   return (
-    <div className="m-24">
+    <div className="m-16">
       {/* calendar with tailwind */}
       <div className="grid grid-cols-7 grid-rows-7 calendar aspect-square">
         <div className="col-span-7 row-span-1 text-center bg-base-200 calendar-row grid grid-cols-7 rounded-lg items-center">

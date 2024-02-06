@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { isLoggedIn } from "../utils/isLogged";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import Sad from "./svg/Sad";
 
 const themes = [
   "light",
@@ -37,8 +40,10 @@ const themes = [
 ];
 
 const Navbar = () => {
+  const [isloggingOut, setIsLoggingOut] = useState(false);
+  const location = useLocation();
   const { loggedIn } = isLoggedIn();
-  // handleThemeChange (to local storage)
+
   const handleThemeChange = (theme: string) => {
     const root = window.document.documentElement;
     const isDark = theme !== "light";
@@ -48,10 +53,18 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userData");
-    localStorage.removeItem("userId");
-    window.location.href = "/";
+    setIsLoggingOut(true);
+    setTimeout(() => {
+      const theme = localStorage.getItem("theme");
+      localStorage.clear();
+      localStorage.setItem("theme", theme as string);
+      window.location.href = "/";
+      const modal = document.getElementById("my_modal_7") as HTMLInputElement;
+      if (modal) {
+        modal.checked = false;
+      }
+      setIsLoggingOut(false);
+    }, 1000);
   };
 
   return (
@@ -93,6 +106,24 @@ const Navbar = () => {
                   <Link to={"/"}>Home</Link>
                 </li>
                 <li>
+                  <Link to={"/resources"}>Resources</Link>
+                </li>
+                <li>
+                  <Link to={"/resources/subjects"}>Subjects</Link>
+                </li>
+                <li>
+                  <Link to={"/resources/announcements"}>Announcements</Link>
+                </li>
+                <li>
+                  <Link to={"/resources/dl"}>DL's</Link>
+                </li>
+                <li>
+                  <a href="https://divinelydeveloper.me">About</a>
+                </li>
+                <li>
+                  <a href="https://divinelydeveloper.me">Contact</a>
+                </li>
+                <li>
                   <details>
                     <summary>Theme</summary>
                     <ul className="h-80 overflow-y-scroll">
@@ -122,12 +153,19 @@ const Navbar = () => {
         </div>
         <div className="hidden lg:block navbar-center">
           <div className="flex items-stretch">
-            <Link to={"/"} className="btn btn-ghost btn-sm rounded-btn">
+            <Link
+              to={"/"}
+              className={`btn btn-${
+                location.pathname === "/" ? "neutral" : "ghost"
+              } btn-sm rounded-btn`}
+            >
               Home
             </Link>
             <Link
               to={"/resources"}
-              className="btn btn-ghost btn-sm rounded-btn"
+              className={`btn btn-${
+                location.pathname.startsWith("/resources") ? "neutral" : "ghost"
+              } btn-sm rounded-btn`}
             >
               Resources
             </Link>
@@ -182,7 +220,7 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="Search"
-              className="input w-30 md:w-auto rounded-full h-10 bg-base-200"
+              className="input input-bordered w-30 md:w-auto h-10"
             />
           </div>
           {loggedIn ? (
@@ -201,12 +239,15 @@ const Navbar = () => {
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
               >
                 <li>
-                  <Link to="">Profile</Link>
+                  <Link to="/profile">Profile</Link>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="text-error">
+                  <Link to="/profile/settings">Settings</Link>
+                </li>
+                <li>
+                  <label className="text-error" htmlFor="my_modal_7">
                     Logout
-                  </button>
+                  </label>
                 </li>
               </ul>
             </div>
@@ -219,6 +260,35 @@ const Navbar = () => {
             </Link>
           )}
         </div>
+      </div>
+
+      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+      <div className="modal" role="dialog">
+        <div className="modal-box max-w-96">
+          <div className="max-w-40 mx-auto flex mb-8">
+            <Sad />
+          </div>
+          <div className="flex modal-action">
+            <button
+              className="btn btn-primary flex-1"
+              onClick={handleLogout}
+              disabled={isloggingOut}
+            >
+              {isloggingOut ? (
+                <span className="loading loading-dots loading-sm"></span>
+              ) : (
+                "Logout"
+              )}
+            </button>
+            <label className="btn flex-1" htmlFor="my_modal_7">
+              Cancel
+            </label>
+          </div>
+        </div>
+
+        <label className="modal-backdrop" htmlFor="my_modal_7">
+          Close
+        </label>
       </div>
     </>
   );

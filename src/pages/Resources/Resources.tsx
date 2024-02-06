@@ -48,12 +48,20 @@ const Resources = () => {
   }, []);
 
   return (
-    <div className="mt-24 max-w-7xl m-auto grid lg:grid-cols-2 grid-rows-2 gap-4 gap-y-8 p-8">
+    <div className="mt-24 max-w-7xl m-auto grid grid-cols-12 gap-4 gap-y-8 p-8">
       {/* Subjects */}
-      <div className="card bg-base-200">
+      <div className="card bg-base-200 col-span-12 md:col-span-8 md:col-start-3 lg:col-span-6">
         <div className="card-body">
-          <h2 className="card-title">Subjects</h2>
-          <div className="p-4 rounded-lg grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="flex justify-between items-center">
+            <h2>Subjects</h2>
+            <Link
+              to={"/resources/subjects"}
+              className="btn btn-link link link-primary"
+            >
+              View all <FiArrowRight />
+            </Link>
+          </div>
+          <div className="card grid grid-cols-2 md:grid-cols-3 gap-4">
             {isLoading
               ? Array.from({ length: 3 }).map((_, index) => (
                   <div key={index} className="skeleton w-40 h-40"></div>
@@ -62,25 +70,28 @@ const Resources = () => {
                   <Link
                     to={`/resources/subjects/${subject.code}`}
                     key={subject._id}
-                    className="stat bg-base-100 rounded-lg aspect-square flex justify-center items-center hover:scale-105 transition-all"
+                    className="stat bg-base-100 card aspect-square flex justify-center items-center hover:bg-base-300 transition-all"
                   >
                     <div className="stat-value text-2xl">{subject.code}</div>
                   </Link>
                 ))}
           </div>
-          <div className="justify-end card-actions">
-            <Link to="" className="btn btn-primary">
-              Explore More
-            </Link>
-          </div>
         </div>
       </div>
 
       {/* Announcements */}
-      <div className="card bg-base-200">
-        <div className="card-body justify-between">
-          <h2 className="card-title">Announcements</h2>
-          <div className="overflow-hidden">
+      <div className="card bg-base-200 col-span-12 md:col-span-8 md:col-start-3 lg:col-span-6">
+        <div className="card-body">
+          <div className="flex justify-between items-center">
+            <h2>Announcements</h2>
+            <Link
+              to={"/resources/announcements"}
+              className="btn btn-link link link-primary"
+            >
+              View all <FiArrowRight />
+            </Link>
+          </div>
+          <div className="overflow-hidden mt-4">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, index) => (
                 <div key={index} className="skeleton w-full h-10 my-2"></div>
@@ -91,7 +102,7 @@ const Resources = () => {
                   <Link
                     to={`/announcements/${announcement._id}`}
                     key={announcement._id}
-                    className="p-4 bg-base-100 rounded-lg"
+                    className="p-4 bg-base-100 card hover:bg-base-300 transition-all"
                   >
                     <div className="flex">
                       <h3 className="text-sm font-medium overflow-hidden text-ellipsis whitespace-nowrap">
@@ -103,21 +114,16 @@ const Resources = () => {
               </ul>
             )}
           </div>
-          <div className="justify-end card-actions">
-            <Link to="" className="btn btn-primary">
-              Explore More
-            </Link>
-          </div>
         </div>
       </div>
       {/* DL's */}
-      <div className="card">
+      <div className="card col-span-12 md:col-span-8 md:col-start-3 lg:col-span-6">
         <div className="flex justify-between items-center">
-          <h2>Upcoming DL's</h2>
-          <button className="btn btn-link">
+          <h2 className="pl-8">Upcoming DL's</h2>
+          <button className="btn btn-link link link-primary">
             Register <FiArrowRight />
           </button>
-        </div>{" "}
+        </div>
         <div className="stats stats-vertical lg:stats-horizontal">
           <div className="stat">
             <div className="stat-value">Time</div>
