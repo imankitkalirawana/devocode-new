@@ -265,7 +265,7 @@ const Navbar = () => {
           ) : (
             <Link
               to="/auth/login"
-              className="btn btn-secondary btn-sm rounded-btn mr-4"
+              className="btn btn-primary btn-sm rounded-btn mr-4"
             >
               Sign In
             </Link>
