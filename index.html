@@ -9,15 +9,40 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
+    <!-- <script>
       // Get the theme value from local storage
       const storedTheme = localStorage.getItem("theme");
+      const date = new Date();
+      const month = 12;
 
-      // Set the data-theme attribute based on the stored value
-      document.documentElement.setAttribute(
-        "data-theme",
-        storedTheme || "default"
-      );
-    </script>
+      // switch (date.getMonth()) {
+      switch (month) {
+        case 0:
+        case 11:
+          document.documentElement.setAttribute(
+            "data-theme",
+            storedTheme || "winter"
+          );
+          break;
+        case 1:
+          document.documentElement.setAttribute(
+            "data-theme",
+            storedTheme || "valentine"
+          );
+          break;
+        case 9:
+          document.documentElement.setAttribute(
+            "data-theme",
+            storedTheme || "halloween"
+          );
+          break;
+
+        default:
+          document.documentElement.setAttribute(
+            "data-theme",
+            storedTheme || "default"
+          );
+      }
+    </script> -->
   </body>
 </html>

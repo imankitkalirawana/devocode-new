@@ -30,7 +30,7 @@ export default function SignInPage() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data));
         localStorage.setItem("userId", data.userId);
-        window.location.href = "/";
+        window.location.href = "/dashboard";
       }
     } catch (error) {
       console.log(error);

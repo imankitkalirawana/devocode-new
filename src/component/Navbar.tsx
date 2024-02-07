@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { isLoggedIn } from "../utils/isLogged";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sad from "./svg/Sad";
 import Marketing from "../pages/Landingpage/Marketing";
 
 const themes = [
+  "default",
   "light",
   "dark",
   "cupcake",
@@ -50,9 +51,44 @@ const Navbar = () => {
     const root = window.document.documentElement;
     const isDark = theme !== "light";
     root.classList.remove(isDark ? "light" : "dark");
-    root.classList.add(theme);
-    localStorage.setItem("theme", theme);
+    if (theme === "default") {
+      localStorage.removeItem("theme");
+      dynamicTheme();
+    } else {
+      localStorage.setItem("theme", theme);
+      document.documentElement.setAttribute("data-theme", theme);
+    }
   };
+
+  console.log(loggedIn);
+
+  const dynamicTheme = () => {
+    const date = new Date();
+    const hours = date.getHours();
+    const month = date.getMonth();
+    // const hours = 14;
+    // const month = 0;
+
+    const sunset = hours >= 17 && hours <= 20;
+    const dim = (hours >= 20 && hours <= 23) || (hours >= 0 && hours < 6);
+    const theme = localStorage.getItem("theme");
+
+    if (sunset) {
+      document.documentElement.setAttribute("data-theme", theme || "sunset");
+    } else if (dim) {
+      document.documentElement.setAttribute("data-theme", theme || "dim");
+    } else if (month === 1) {
+      document.documentElement.setAttribute("data-theme", theme || "valentine");
+    } else if (month === 10) {
+      document.documentElement.setAttribute("data-theme", theme || "halloween");
+    } else if (month >= 11 || month < 1) {
+      document.documentElement.setAttribute("data-theme", theme || "winter");
+    }
+  };
+
+  useEffect(() => {
+    dynamicTheme();
+  }, [dynamicTheme]);
 
   const handleLogout = () => {
     setIsLoggingOut(true);
@@ -146,7 +182,9 @@ const Navbar = () => {
                             className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                             value={theme}
                             aria-label={
-                              theme.charAt(0).toUpperCase() + theme.slice(1)
+                              theme != "default"
+                                ? theme.charAt(0).toUpperCase() + theme.slice(1)
+                                : "Dynamic"
                             }
                             onChange={() => handleThemeChange(theme)}
                           />
@@ -220,7 +258,11 @@ const Navbar = () => {
                     name="theme-dropdown"
                     className={`theme-controller btn btn-sm btn-block justify-start btn-ghost`}
                     value={theme}
-                    aria-label={theme.charAt(0).toUpperCase() + theme.slice(1)}
+                    aria-label={
+                      theme != "default"
+                        ? theme.charAt(0).toUpperCase() + theme.slice(1)
+                        : "Dynamic"
+                    }
                     onChange={() => handleThemeChange(theme)}
                   />
                 </li>
