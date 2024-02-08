@@ -21,7 +21,7 @@ export default function SignInPage() {
     setIsLoading(true);
     event.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
+      const response = await axios.post(`${API_BASE_URL}/api/user/login`, {
         username,
         password,
       });
@@ -30,7 +30,12 @@ export default function SignInPage() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data));
         localStorage.setItem("userId", data.userId);
-        window.location.href = "/dashboard";
+        if (localStorage.getItem("redirectPath")) {
+          window.location.href = localStorage.getItem("redirectPath") as string;
+        } else {
+          window.location.href = "/dashboard";
+        }
+        localStorage.removeItem("redirectPath");
       }
     } catch (error) {
       console.log(error);

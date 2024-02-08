@@ -60,8 +60,6 @@ const Navbar = () => {
     }
   };
 
-  console.log(loggedIn);
-
   const dynamicTheme = () => {
     const date = new Date();
     const hours = date.getHours();
@@ -202,14 +200,25 @@ const Navbar = () => {
         </div>
         <div className="hidden lg:block navbar-center">
           <div className="flex items-stretch">
-            <Link
-              to={"/"}
-              className={`btn btn-${
-                location.pathname === "/" ? "neutral" : "ghost"
-              } btn-sm rounded-btn`}
-            >
-              Home
-            </Link>
+            {loggedIn ? (
+              <Link
+                to={"/dashboard"}
+                className={`btn btn-${
+                  location.pathname === "/dashboard" ? "neutral" : "ghost"
+                } btn-sm rounded-btn`}
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                to={"/"}
+                className={`btn btn-${
+                  location.pathname === "/" ? "neutral" : "ghost"
+                } btn-sm rounded-btn`}
+              >
+                Home
+              </Link>
+            )}
             <Link
               to={"/resources"}
               className={`btn btn-${

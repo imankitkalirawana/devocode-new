@@ -1,129 +1,64 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { isLoggedIn } from "../utils/isLogged";
+import { useLocation } from "react-router-dom";
+import API_BASE_URL from "../utils/config";
 
-type Country = {
-  id: number;
-  iso2: string;
-  name: string;
-};
-
-type State = {
-  id: number;
-  iso2: string;
-  name: string;
-  country_code: number;
-};
-
-type City = {
-  id: number;
-  name: string;
+type User = {
+  _id: string;
+  firstname: string;
+  lastname: string;
+  profile: string;
+  username: string;
+  email: string;
+  pan: string;
+  aadhar: string;
+  phone: string;
+  about: string;
+  role: string;
+  country: string;
+  state: string;
+  city: string;
+  streetaddress: string;
+  zip: string;
+  createdat: string;
+  updatedat: string;
+  theme: string;
 };
 
 const Profile = () => {
+  const { loggedIn } = isLoggedIn();
+  const location = useLocation();
+  const currentPath = location.pathname;
+  if (!loggedIn) {
+    localStorage.setItem("redirectPath", currentPath);
+    window.location.href = "/auth/login";
+  }
   // countries
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [states, setStates] = useState<State[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
 
-  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    fetchStatesByCountry(e.target.value);
-  };
-
-  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    fetchCityByStateAndCountry("IN", e.target.value);
-  };
-
-  const fetchStatesByCountry = async (iso2: any) => {
-    try {
-      const response = await axios.get(
-        `https://api.countrystatecity.in/v1/countries/${iso2}/states`,
-        {
-          headers: {
-            "X-CSCAPI-KEY":
-              "RnpDQWYxaEwyeUNGamZFQ0VqeHFMejk2MURYMjVrVFpNSUlja3dyZQ==",
-          },
-        }
-      );
-      const { data } = response;
-      setStates(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchCityByStateAndCountry = async (iso2: any, stateCode: any) => {
-    try {
-      const response = await axios.get(
-        `https://api.countrystatecity.in/v1/countries/${iso2}/states/${stateCode}/cities`,
-        {
-          headers: {
-            "X-CSCAPI-KEY":
-              "RnpDQWYxaEwyeUNGamZFQ0VqeHFMejk2MURYMjVrVFpNSUlja3dyZQ==",
-          },
-        }
-      );
-      const { data } = response;
-      setCities(data);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // fetch country names
-    const fetchCountries = async () => {
+    const fetchUser = async () => {
       try {
-        const response = await axios.get(
-          "https://api.countrystatecity.in/v1/countries",
-          {
-            headers: {
-              "X-CSCAPI-KEY":
-                "RnpDQWYxaEwyeUNGamZFQ0VqeHFMejk2MURYMjVrVFpNSUlja3dyZQ==",
-            },
-          }
-        );
+        const response = await axios.get(`${API_BASE_URL}/api/user/profile`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
         const { data } = response;
-        setCountries(data);
+        setUser(data.user);
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchCountries();
+    fetchUser();
   }, []);
 
-  //  sorted countries
-  const sortedCountries = countries.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  });
-
-  // sorted states
-  const sortedStates = states.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  });
-
-  const sortedCities = cities.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  });
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto my-10 mt-24">
@@ -154,7 +89,11 @@ const Profile = () => {
                       id="username"
                       autoComplete="username"
                       className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-base-content placeholder:text-base-neutral focus:ring-0 sm:text-sm sm:leading-6"
-                      placeholder="janesmith"
+                      placeholder={user.username}
+                      value={user.username}
+                      onChange={(e) =>
+                        setUser({ ...user, username: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -170,7 +109,10 @@ const Profile = () => {
                     name="about"
                     rows={3}
                     className="input input-bordered block w-full h-28 bg-base-100 py-1.5 text-base-content shadow-sm placeholder:text-neutral focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-                    defaultValue={""}
+                    value={user.about}
+                    onChange={(e) =>
+                      setUser({ ...user, about: e.target.value })
+                    }
                   />
                 </div>
                 <div className="label">
@@ -203,7 +145,7 @@ const Profile = () => {
                 <label htmlFor="cover-photo" className="label">
                   <span className="label-text">Cover Photo</span>
                 </label>
-                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-base-content px-6 py-10">
+                <div className="mt-2 flex justify-center border border-dashed border-base-content px-6 py-10 rounded-lg">
                   <div className="text-center">
                     {/* photo icon */}
 
@@ -251,6 +193,10 @@ const Profile = () => {
                     id="first-name"
                     autoComplete="given-name"
                     className="input input-bordered w-full"
+                    value={user.firstname}
+                    onChange={(e) =>
+                      setUser({ ...user, firstname: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -266,11 +212,15 @@ const Profile = () => {
                     id="last-name"
                     autoComplete="family-name"
                     className="input input-bordered w-full"
+                    value={user.lastname}
+                    onChange={(e) =>
+                      setUser({ ...user, lastname: e.target.value })
+                    }
                   />
                 </div>
               </div>
 
-              <div className="sm:col-span-5">
+              <div className="sm:col-span-3">
                 <label htmlFor="email" className="label">
                   <span className="label-text">Email address</span>
                 </label>
@@ -281,7 +231,35 @@ const Profile = () => {
                     type="email"
                     autoComplete="email"
                     className="input input-bordered w-full"
+                    value={user.email}
+                    onChange={(e) =>
+                      setUser({ ...user, email: e.target.value })
+                    }
                   />
+                </div>
+              </div>
+              <div className="sm:col-span-3">
+                <label htmlFor="phone" className="label">
+                  <span className="label-text">Phone</span>
+                </label>
+                <div className="mt-2">
+                  <div className="flex input input-bordered shadow-sm">
+                    <span className="flex select-none items-center pl-1 text-base-content sm:text-sm">
+                      +91
+                    </span>
+                    <input
+                      type="text"
+                      name="phone"
+                      id="phone"
+                      autoComplete="phone"
+                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-base-content placeholder:text-base-neutral focus:ring-0 sm:text-sm sm:leading-6"
+                      placeholder={user.phone}
+                      value={user.phone}
+                      onChange={(e) =>
+                        setUser({ ...user, phone: e.target.value })
+                      }
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -290,19 +268,17 @@ const Profile = () => {
                   <span className="label-text">Country</span>
                 </label>
                 <div className="mt-2">
-                  <select
+                  <input
                     id="country"
                     name="country"
-                    autoComplete="country-name"
+                    type="country"
+                    autoComplete="country"
                     className="input input-bordered w-full"
-                    onChange={handleCountryChange}
-                  >
-                    {sortedCountries.map((country, index) => (
-                      <option key={index} value={country.iso2}>
-                        {country.name}
-                      </option>
-                    ))}
-                  </select>
+                    value={user.country}
+                    onChange={(e) =>
+                      setUser({ ...user, country: e.target.value })
+                    }
+                  />
                 </div>
               </div>
               <div className="sm:col-span-2">
@@ -310,19 +286,17 @@ const Profile = () => {
                   <span className="label-text">State / Province</span>
                 </label>
                 <div className="mt-2">
-                  <select
+                  <input
                     id="state"
                     name="state"
-                    autoComplete="state-name"
+                    type="state"
+                    autoComplete="state"
                     className="input input-bordered w-full"
-                    onChange={handleStateChange}
-                  >
-                    {sortedStates.map((state, index) => (
-                      <option key={index} value={state.iso2}>
-                        {state.name}
-                      </option>
-                    ))}
-                  </select>
+                    value={user.state}
+                    onChange={(e) =>
+                      setUser({ ...user, state: e.target.value })
+                    }
+                  />
                 </div>
               </div>
               <div className="sm:col-span-2">
@@ -330,18 +304,15 @@ const Profile = () => {
                   <span className="label-text">City</span>
                 </label>
                 <div className="mt-2">
-                  <select
+                  <input
                     id="city"
                     name="city"
-                    autoComplete="city-name"
+                    type="city"
+                    autoComplete="city"
                     className="input input-bordered w-full"
-                  >
-                    {sortedCities.map((city, index) => (
-                      <option key={index} value={city.name}>
-                        {city.name}
-                      </option>
-                    ))}
-                  </select>
+                    value={user.city}
+                    onChange={(e) => setUser({ ...user, city: e.target.value })}
+                  />
                 </div>
               </div>
 
@@ -356,6 +327,10 @@ const Profile = () => {
                     id="street-address"
                     autoComplete="street-address"
                     className="input input-bordered w-full"
+                    value={user.streetaddress}
+                    onChange={(e) =>
+                      setUser({ ...user, streetaddress: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -371,6 +346,8 @@ const Profile = () => {
                     id="postal-code"
                     autoComplete="postal-code"
                     className="input input-bordered w-full"
+                    value={user.zip}
+                    onChange={(e) => setUser({ ...user, zip: e.target.value })}
                   />
                 </div>
               </div>

@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 import Subjects from "./pages/Resources/Subjects/Subjects";
 import Profile from "./component/Profile";
 import UserDashboard from "./pages/Homepage/UserDashboard";
+import Settings from "./pages/Settings/Settings";
 
 // Layout component with Navbar and Footer
 const MainLayout = ({ children }: any) => (
@@ -43,8 +44,9 @@ export function App() {
                     <Route path="subjects" element={<Subjects />} />
                   </Route>
                   {/* Profile */}
-                  <Route path="profile/*" element={<Outlet />}>
-                    <Route path="" element={<Profile />} />
+                  <Route path="settings/*" element={<Outlet />}>
+                    <Route path="" element={<Settings />} />
+                    <Route path="profile" element={<Profile />} />
                     <Route path="settings" element={<>Settings</>} />
                     <Route path="billing" element={<>Billing</>} />
                   </Route>
