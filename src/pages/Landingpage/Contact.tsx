@@ -1,4 +1,4 @@
-import { Switch } from "@headlessui/react";
+// import { Switch } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 
@@ -139,7 +139,7 @@ const Contact = () => {
               />
             </div>
           </div>
-          <Switch.Group as="div" className="flex gap-x-4 sm:col-span-2">
+          {/* <Switch.Group as="div" className="flex gap-x-4 sm:col-span-2">
             <div className="flex h-6 items-center">
               <Switch
                 checked={agreed}
@@ -163,7 +163,7 @@ const Contact = () => {
               </a>
               .
             </Switch.Label>
-          </Switch.Group>
+          </Switch.Group> */}
         </div>
         <div className="mt-10">
           <button type="submit" className="btn btn-primary w-full">

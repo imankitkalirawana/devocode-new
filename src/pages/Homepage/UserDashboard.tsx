@@ -21,7 +21,7 @@ const UserDashboard = () => {
           type="radio"
           name="my_tabs_1"
           role="tab"
-          className="tab !bg-base-100 !border-none"
+          className="tab"
           aria-label="Dashboard"
           defaultChecked
         />

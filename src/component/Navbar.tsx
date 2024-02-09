@@ -301,10 +301,10 @@ const Navbar = () => {
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
               >
                 <li>
-                  <Link to="/profile">Profile</Link>
+                  <Link to="/settings#profile">Profile</Link>
                 </li>
                 <li>
-                  <Link to="/profile/settings">Settings</Link>
+                  <Link to="/settings">Settings</Link>
                 </li>
                 <li>
                   <label className="text-error" htmlFor="my_modal_7">
