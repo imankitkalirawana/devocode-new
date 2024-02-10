@@ -55,7 +55,8 @@ const Profile = () => {
     };
 
     fetchUser();
-  }, []);
+    setIsDeleting(false);
+  }, [setIsDeleting]);
 
   if (!user) {
     return <div>Loading...</div>;
