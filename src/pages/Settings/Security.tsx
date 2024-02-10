@@ -54,7 +54,7 @@ const Security = () => {
           Cancel
         </button>
         <button type="submit" className="btn btn-primary btn-sm">
-          Save
+          Update
         </button>
       </div>
     </form>

@@ -9,7 +9,7 @@ const Settings = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="mt-24 relative max-w-7xl mx-auto">
+    <div className="mt-24 relative max-w-7xl mx-auto p-4">
       <div role="tablist" className="tabs tabs-bordered">
         <input
           type="radio"

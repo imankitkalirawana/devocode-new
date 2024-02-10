@@ -15,7 +15,6 @@ import Login from "./pages/Auth/Login";
 import Resources from "./pages/Resources/Resources";
 import { ToastContainer } from "react-toastify";
 import Subjects from "./pages/Resources/Subjects/Subjects";
-import Profile from "./component/Profile";
 import UserDashboard from "./pages/Homepage/UserDashboard";
 import Settings from "./pages/Settings/Settings";
 
@@ -44,12 +43,7 @@ export function App() {
                     <Route path="subjects" element={<Subjects />} />
                   </Route>
                   {/* Profile */}
-                  <Route path="settings/*" element={<Outlet />}>
-                    <Route path="" element={<Settings />} />
-                    <Route path="profile" element={<Profile />} />
-                    <Route path="settings" element={<>Settings</>} />
-                    <Route path="billing" element={<>Billing</>} />
-                  </Route>
+                  <Route path="settings/*" element={<Settings />} />
                   {/* <Footer /> */}
                 </Routes>
               </MainLayout>

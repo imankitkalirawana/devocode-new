@@ -37,6 +37,7 @@ const Profile = () => {
   // countries
 
   const [user, setUser] = useState<User | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -484,13 +485,51 @@ const Profile = () => {
         <div className="divider"></div>
       </div>
 
-      <div className="mt-6 flex items-center justify-end gap-2">
-        <button type="button" className="btn btn-ghost btn-sm">
-          Cancel
+      <div className="mt-6 flex items-center justify-between gap-2">
+        <button type="button" className="btn btn-error btn-outline btn-sm">
+          <label htmlFor="delete_modal">Delete Account</label>
         </button>
-        <button type="submit" className="btn btn-primary btn-sm">
-          Save
-        </button>
+        <div className="flex gap-2">
+          <button type="button" className="btn btn-ghost btn-sm">
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary btn-sm">
+            Save
+          </button>
+        </div>
+      </div>
+      <input type="checkbox" id="delete_modal" className="modal-toggle" />
+      <div className="modal" role="dialog">
+        <div className="modal-box max-w-96">
+          <label htmlFor="city" className="label">
+            <span className="label-text">
+              Enter <b>{user.username}</b> to delete
+            </span>
+          </label>
+          <input
+            type="text"
+            id="delete_confirmation"
+            className="input input-bordered w-full"
+            placeholder={user.username}
+            disabled={isDeleting}
+          />
+          <div className="flex modal-action">
+            <button className="btn btn-primary flex-1" disabled={isDeleting}>
+              {isDeleting ? (
+                <span className="loading loading-dots loading-sm"></span>
+              ) : (
+                "Delete"
+              )}
+            </button>
+            <label className="btn flex-1" htmlFor="delete_modal">
+              Cancel
+            </label>
+          </div>
+        </div>
+
+        <label className="modal-backdrop" htmlFor="delete_modal">
+          Close
+        </label>
       </div>
     </form>
   );

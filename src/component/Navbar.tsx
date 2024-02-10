@@ -95,7 +95,7 @@ const Navbar = () => {
       localStorage.clear();
       localStorage.setItem("theme", theme as string);
       window.location.href = "/";
-      const modal = document.getElementById("my_modal_7") as HTMLInputElement;
+      const modal = document.getElementById("logout_modal") as HTMLInputElement;
       if (modal) {
         modal.checked = false;
       }
@@ -307,7 +307,7 @@ const Navbar = () => {
                   <Link to="/settings">Settings</Link>
                 </li>
                 <li>
-                  <label className="text-error" htmlFor="my_modal_7">
+                  <label className="text-error" htmlFor="logout_modal">
                     Logout
                   </label>
                 </li>
@@ -324,7 +324,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+      <input type="checkbox" id="logout_modal" className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className="modal-box max-w-96">
           <div className="max-w-40 mx-auto flex mb-8">
@@ -342,13 +342,13 @@ const Navbar = () => {
                 "Logout"
               )}
             </button>
-            <label className="btn flex-1" htmlFor="my_modal_7">
+            <label className="btn flex-1" htmlFor="logout_modal">
               Cancel
             </label>
           </div>
         </div>
 
-        <label className="modal-backdrop" htmlFor="my_modal_7">
+        <label className="modal-backdrop" htmlFor="logout_modal">
           Close
         </label>
       </div>

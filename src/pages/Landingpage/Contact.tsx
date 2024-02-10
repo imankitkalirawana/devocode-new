@@ -1,14 +1,7 @@
 // import { Switch } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
-
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const Contact = () => {
-  const [agreed, setAgreed] = useState(false);
-
   return (
     <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
       <div
