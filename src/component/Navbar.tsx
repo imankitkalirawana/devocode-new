@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Sad from "./svg/Sad";
 import Marketing from "../pages/Landingpage/Marketing";
+import BottomBar from "./BottomBar";
 
 const themes = [
   "default",
@@ -301,6 +302,9 @@ const Navbar = () => {
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52"
               >
                 <li>
+                  <Link to="/admin/dashboard">Admin</Link>
+                </li>
+                <li>
                   <Link to="/settings#profile">Profile</Link>
                 </li>
                 <li>
@@ -322,6 +326,10 @@ const Navbar = () => {
             </Link>
           )}
         </div>
+      </div>
+      {/* bottom bar */}
+      <div className="md:hidden">
+        <BottomBar />
       </div>
 
       <input type="checkbox" id="logout_modal" className="modal-toggle" />

@@ -15,7 +15,7 @@ const Banner = () => {
       </div>
       <div className="mx-auto max-w-2xl py-20">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-content ring-1 ring-neutral-600">
+          <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-content ring-1 ring-base-300/70">
             Announcing our next round of funding.{" "}
             <a href="#" className="font-semibold text-primary">
               <span className="absolute inset-0" aria-hidden="true" />

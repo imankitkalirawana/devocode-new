@@ -2,6 +2,7 @@ import Banner from "./Banner";
 import Contact from "./Contact";
 import Features from "./Features";
 import Footer from "./Footer";
+import Newsletter from "./Newsletter";
 import Pricing from "./Pricing";
 // import LogoCloud from "./LogoCloud";
 import Stats from "./Stats";
@@ -12,6 +13,7 @@ const HomePage = () => {
     <>
       <Banner />
       <Features />
+      <Newsletter />
       <Stats />
       <Testimonial />
       {/* <LogoCloud /> */}
